@@ -10,7 +10,6 @@ public class ConnectionManager {
     private static final String USER = "postgres";
     private static final String PASSWORD = "Rere!090215Cz";
 
-
     private ConnectionManager() {
 
     }
