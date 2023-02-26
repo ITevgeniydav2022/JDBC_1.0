@@ -1,52 +1,45 @@
 import dao.EmployeeDao;
 import dao.impl.EmployeeDaoImpl;
-import jdbc.ConnectionManager;
 import model.City;
 import model.Employee;
 
-import java.sql.*;
 import java.util.Optional;
 
 public class Application {
 
     public static void main(String[] args) {
 
-        // Задание 1
-        System.out.println("Задание 1");
-        System.out.println();
         EmployeeDao employeeDao = new EmployeeDaoImpl();
         City spb = new City(10, "Санкт-Петербург");
         City msc = new City(11, "Москва");
         City tmn = new City(12, "Тюмень");
 
-        employeeDao.add(new Employee("Евгений", "Давыдов", "муж", 42, spb))
-                .ifPresent(employee -> System.out.println("Добавленный сотрудник: " + employee));
-        Optional<Employee> employeeOptional = employeeDao.add(new Employee("Сергей", "Иванов", "муж", 65, msc));
-        employeeOptional.ifPresent(
-                employee -> System.out.println("Добавленный сотрудник: " + employee));
-        employeeDao.add(new Employee("Алевтина", "Петрововна", "жен", 70, tmn))
-                .ifPresent(employee -> System.out.println("Добавленный пенсионер: " + employee));
-        employeeDao.add(new Employee("Антон", "Филипов", "муж", 33))
-                .ifPresent(employee -> System.out.println("Добавленный сотрудник: " + employee));
+        Employee evgeny = employeeDao.add(new Employee("Евгений", "Давыдов", "муж", 42, 10L));
+        System.out.println("Добавленный сотрудник: " + evgeny);
+
+        Employee sergey = employeeDao.add(new Employee("Сергей", "Иванов", "муж", 65, 11L));
+        System.out.println("Добавленный сотрудник: " + sergey);
+
+        Employee alina = employeeDao.add(new Employee("Алевтина", "Петрововна", "жен", 70, 12L));
+        System.out.println("Добавленный пенсионер: " + alina);
+
+        Employee anton = employeeDao.add(new Employee("Антон", "Филипов", "муж", 33));
+        System.out.println("Добавленный сотрудник: " + anton);
 
         System.out.println("Все сотрудники");
         employeeDao.findAll().forEach(System.out::println);
 
-        if (employeeOptional.isPresent()) {
-            employeeDao.findById(employeeOptional.get().getId())
-                    .ifPresent(employee -> System.out.println("Найденный сотрудник: " + employee));
-        }
-        if (employeeOptional.isPresent()) {
-            Employee employee = employeeOptional.get();
-            employee.setAge(55);
-            employee.setFirst_name("Яков");
-            employeeDao.update(employee)
-                    .ifPresent(emp -> System.out.println("Обновленный сотрудник: " + emp));
-        }
-        if (employeeOptional.isPresent()) {
-            employeeDao.deleteById(employeeOptional.get().getId())
-                    .ifPresent(emp -> System.out.println("Удаленный сотрудник: " + emp));
-        }
+        employeeDao.findById(sergey.getId())
+                .ifPresent(employee -> System.out.println("Найденный сотрудник: " + employee));
+
+        sergey.setAge(55);
+        sergey.setFirstName("Яков");
+        sergey.setCity(11L);
+        sergey = employeeDao.update(sergey);
+        System.out.println("Обновленный сотрудник: " + sergey);
+
+        employeeDao.delete(sergey);
+        System.out.println("Удаленный сотрудник: " + sergey);
 
         System.out.println("Все сотрудники");
         employeeDao.findAll().forEach(System.out::println);

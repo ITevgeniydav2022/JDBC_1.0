@@ -1,33 +1,47 @@
 package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "employee")
 public class Employee {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String first_name;
-    private String last_name;
+    @Column(name = "first_name", nullable = false, length = 50)
+    private String firstName;
+    @Column(name = "last_name", nullable = false, length = 50)
+    private String lastName;
+    @Column(name = "gender", nullable = false, length = 6)
     private String gender;
+    @Column(name = "age")
     private int age;
-    private City city;
+    @Column(name = "city_id")
+    private Long city;
 
-    public Employee(String first_name, String last_name, String gender, int age) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public Employee() {
+    }
+
+    public Employee(String firstName, String lastName, String gender, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.age = age;
     }
 
-    public Employee(String first_name, String last_name, String gender, int age, City city) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public Employee(String firstName, String lastName, String gender, int age, Long city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.age = age;
         this.city = city;
     }
 
-    public Employee(Long id, String first_name, String last_name, String gender, int age, City city) {
+    public Employee(Long id, String firstName, String lastName, String gender, int age, Long city) {
         this.id = id;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.age = age;
         this.city = city;
@@ -41,20 +55,20 @@ public class Employee {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getGender() {
@@ -73,19 +87,19 @@ public class Employee {
         this.age = age;
     }
 
-    public City getCity() {
+    public Long getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setCity(Long city) {
         this.city = city;
     }
 
     @Override
     public String toString() {
         return "id=" + id +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", age=" + age +
                 ", city=" + city;
